@@ -7,8 +7,8 @@ export default defineConfig({
   plugins: [react(), tailwindcss(),],
   server: {
     proxy: {
-      '/api': 'http://localhost:3000',
-      '/public': 'http://localhost:3000'
+      '/api': 'https://data-association-backend.onrender.com',
+      '/public': 'https://data-association-backend.onrender.com'
     }
   }
 })
