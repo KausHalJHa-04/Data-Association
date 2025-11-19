@@ -42,7 +42,7 @@ const corsOptions = {
   origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps or curl requests)
     // and allow all Vercel preview URLs.
-    if (!origin || allowedOrigins.includes(origin) || new RegExp(`^https://data-association-main-.*\\.vercel\\.app$`).test(origin)) {
+    if (!origin || allowedOrigins.includes(origin) || /^https:\/\/[a-zA-Z0-9-]+\.vercel\.app$/.test(origin)) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
