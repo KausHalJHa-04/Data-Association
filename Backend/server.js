@@ -20,8 +20,8 @@ const postModel = require('./models/post');
 
 // ---------- Config ----------
 const PORT = process.env.PORT || 3000;
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/miniproject';
-const JWT_SECRET = process.env.JWT_SECRET || 'secure'; // replace in production
+const MONGO_URI = process.env.MONGO_URI;
+const JWT_SECRET = process.env.JWT_SECRET; // replace in production
 
 // ---------- DB connect ----------
 mongoose.connect(MONGO_URI, {
