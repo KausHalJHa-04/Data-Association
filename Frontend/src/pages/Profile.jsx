@@ -80,7 +80,7 @@ export default function Profile() {
         <aside className="lg:col-span-1 bg-white/5 rounded-xl p-4 border border-white/10">
           <div className="w-full flex flex-col items-center">
             <div className="w-32 h-32 rounded-full overflow-hidden mb-4 bg-slate-700">
-              <img src={`/public/images/uploads/${user.profilepic}`} alt="profile" className="w-full h-full object-cover" />
+              <img src={`https://data-association-backend.onrender.com/public/images/uploads/${user.profilepic}`} alt="profile" className="w-full h-full object-cover" />
             </div>
             <div className="text-center">
               <h3 className="text-lg font-medium">{user.name}</h3>
