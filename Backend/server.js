@@ -104,10 +104,17 @@ app.post('/api/register', async (req, res) => {
     if (existing) return sendError(res, 400, 'User already exists');
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
+
     const user = await userModel.create({ username, name, age, email, password: hash });
     const token = jwt.sign({ email, userid: user._id }, JWT_SECRET, { expiresIn: '7d' });
-    // cookie options: httpOnly & sameSite lax are good defaults for dev
-    res.cookie('token', token, { httpOnly: true, sameSite: 'lax' });
+
+    const cookieOptions = {
+      httpOnly: true,
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      secure: process.env.NODE_ENV === 'production'
+    };
+    res.cookie('token', token, cookieOptions);
+
     const safeUser = user.toObject();
     delete safeUser.password;
     return sendOK(res, { user: safeUser }, 'Registered');
@@ -125,8 +132,15 @@ app.post('/api/login', async (req, res) => {
     if (!user) return sendError(res, 400, 'Invalid credentials');
     const ok = await bcrypt.compare(password, user.password);
     if (!ok) return sendError(res, 400, 'Invalid credentials');
+
     const token = jwt.sign({ email, userid: user._id }, JWT_SECRET, { expiresIn: '7d' });
-    res.cookie('token', token, { httpOnly: true, sameSite: 'lax' });
+    const cookieOptions = {
+      httpOnly: true,
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      secure: process.env.NODE_ENV === 'production'
+    };
+    res.cookie('token', token, cookieOptions);
+
     const safeUser = user.toObject();
     delete safeUser.password;
     return sendOK(res, { user: safeUser }, 'Logged in');
