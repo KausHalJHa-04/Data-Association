@@ -8,7 +8,11 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const upload = require('./config/multerconfig'); // multer config
-require('dotenv').config(); // optional: load .env
+
+// Load .env file only in development
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 
 // Models (no mongoose.connect in models; connect here)
 const userModel = require('./models/user');
