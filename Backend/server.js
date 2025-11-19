@@ -32,14 +32,23 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// CORS - allow Vite dev server origin and credentials (cookies)
+// CORS - whitelist origins from env (recommended) and allow credentials (cookies)
+// Set FRONTEND_URL in your Render/production env to your deployed frontend URL
+const FRONTEND_URL = process.env.FRONTEND_URL || 'https://data-association-main.vercel.app'
+const DEV_ORIGIN = 'http://localhost:5173'
+const ALLOWED_ORIGINS = [FRONTEND_URL, DEV_ORIGIN]
+
 app.use(cors({
-  origin: [
-    "http://localhost:5173",                      // local dev
-    "https://data-association-main.vercel.app"    // your frontend live URL
-  ],
-  credentials: true
-}));
+  origin: function (origin, callback) {
+    // Allow requests with no origin (mobile apps, curl, server-to-server)
+    if (!origin) return callback(null, true)
+    if (ALLOWED_ORIGINS.indexOf(origin) !== -1) return callback(null, true)
+    // Not allowed
+    return callback(new Error(`CORS: origin ${origin} not allowed`))
+  },
+  credentials: true,
+  exposedHeaders: ['Set-Cookie']
+}))
 
 // Serve static files (images, etc.). Frontend will request /public/...
 app.use('/public', express.static(path.join(__dirname, 'public')));
