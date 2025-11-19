@@ -34,7 +34,10 @@ app.use(cookieParser());
 
 // CORS - allow Vite dev server origin and credentials (cookies)
 app.use(cors({
-  origin: 'http://localhost:5173', // <-- Vite dev server URL
+  origin: [
+    "http://localhost:5173",                      // local dev
+    "https://data-association-main.vercel.app"    // your frontend live URL
+  ],
   credentials: true
 }));
 
