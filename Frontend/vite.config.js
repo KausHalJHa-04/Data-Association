@@ -4,11 +4,5 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss(),],
-  server: {
-    proxy: {
-      '/api': 'https://data-association-backend.onrender.com',
-      '/public': 'https://data-association-backend.onrender.com'
-    }
-  }
+  plugins: [react(), tailwindcss(),]
 })
